@@ -1,55 +1,36 @@
 $(document).ready(function () {
-  let arr = new Array();
-  let list = $('#imageList');
+  //container to output the image
+  let image_popup = document.querySelector('.image-popup');
 
-  $('#upload').click(function (event) {
-    // Triggered when a file is loaded :)
-    event.preventDefault();
-    let fd = new FormData();
-
-    let files = $('#file')[0].files[0]; // Retrieves the first image that was uploaded
-
-    if (files !== undefined) {
-      fd.append('file', files); // Appends the image file
-
-      $.ajax({
-        url: "server.php",
-        type: "POST",
-        data: fd,
-        processData: false,  // Tell jQuery not to process the data
-        contentType: false,  // Tell jQuery not to set contentType
-        success: function (response) {
-          let str = response;
-          arr = str.split(",\n"); // Adds the URLs of the images to the array
-
-          // Clear the existing list
-          list.empty();
-
-          // Loop through the array and add images to the list
-          for (let i = 0; i < arr.length; i++) {
-            try {
-              let li = document.createElement("li");
-              let image = document.createElement("img");
-              let aux = "galeria/" + arr[i];
-              console.log(aux);
-              image.setAttribute("src", aux);
-              li.append(image);
-              list.append(li);
-            } catch (error) {
-              console.log("Image not found");
-            }
-          }
-
-          console.log(arr);
-        },
-        error: function (response) {
-          console.log(response);
-        }
-      });
-
-      return false;
-    } else {
-      console.log("There's no image to upload");
-    }
+  //iterate the images and apply the onclick event to each individual image
+  document.querySelectorAll('.images a').forEach(img_link => {
+    //for each image class link
+    img_link =onclick = e =>{
+      e.preventDefault();
+      let img_meta = img_link.querySelector('img');
+      let img = new Image();
+      img.onload = () => {
+        //create the pop out image
+        image_popup.innerHTML = `
+          <div class = "con">
+            <h3>${img_meta.dataset.title}</h3>
+            <p>${img.meta.alt}</p>
+            <img src=${img.src} "width="${img.width}" height="${img.height}">
+            <a href="delete.php?id=${img_meta.dataset.id}" class="trash" title="Delete Image"><i class="fas fa-trash fa-xs"></i></a>
+          </div>
+        `;
+        image_popup.computedStyleMap.display = 'flex';
+      };
+      img.src = img_meta.src;
+    };
   });
+
+  //hide the image popup container, but only if the user clicks outside the image
+  image_popup.onclick = e =>{
+    if(e.target.className == 'image-popup'){
+      image_popup.computedStyleMap.display = "none";
+    }
+  };
 });
+
+

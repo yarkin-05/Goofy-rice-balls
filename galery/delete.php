@@ -1,0 +1,1 @@
+//this file will be used to delete an image from our server and associates in the mySQL databse
