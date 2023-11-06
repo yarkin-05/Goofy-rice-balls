@@ -27,5 +27,6 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC); //connection from PHP and sql, retu
     <?php endforeach; ?>
 </div>
 <div class="image-popup"></div>
+<?=template_footer()?>
 
 ?>
