@@ -1,8 +1,5 @@
-var currentTime = '';
-
 function time(){
   const d = new Date; //new date object
-  let time = d.toTimeString();
   let hours = d.getHours();
   let minutes  = d.getMinutes();
   let seconds =  d.getSeconds();
@@ -11,14 +8,20 @@ function time(){
   console.log(hours);
   console.log(minutes);
   console.log(seconds);
-  
-  currentTime = hours+":"+minutes+":"+seconds;
-  console.log(currentTime);
+  let msj = document.createElement('p'); //msj en msj
+  let time = document.createElement('p');
 
-  if( hours >= 19 && hours <= 4) console.log("Buenas noches");
-  else if(hours >= 5 && hours <= 12) console.log("Buenos dias");
-  else if(hours >= 12 && hours <= 18) console.log("Buenas tardes");
+  if( hours >= 19 || hours <= 4){ msj.textContent = "Buenas Noches" ;}
+  else if(hours >= 5 && hours <= 12) {msj.textContent = "Buenos dias";}
+  else if(hours >= 12 && hours <= 18) {msj.textContent="Buenas tardes";}
+  time.textContent = hours+":"+minutes+":"+seconds;
 
+
+  let clock = document.querySelector('#reloj');
+  let show_message = document.querySelector('#msg');
+
+  clock.appendChild(time);
+  show_message.appendChild(msj);
 
 }
 
