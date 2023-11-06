@@ -44,6 +44,7 @@ EOT;
 
 function template_footer(){
   echo <<<EOT
+  <script src="app.js"></script>
   </body>
 </html>
 EOT;
