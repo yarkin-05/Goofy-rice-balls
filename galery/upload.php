@@ -33,6 +33,7 @@ if(isset($_FILES['image'], $_POST['title'], $_POST['description'])){
     $msg = 'Please upload an image!';
   }
 }
+?>
 
 <?=template_header('Upload Image')?>
 
@@ -51,5 +52,3 @@ if(isset($_FILES['image'], $_POST['title'], $_POST['description'])){
 </div>
 
 <?=template_footer()?>
-
-?>

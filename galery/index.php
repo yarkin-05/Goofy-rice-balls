@@ -12,6 +12,9 @@ $stmt = $pdo->query('SELECT * FROM upload ORDER BY date DESC');
 $images = $stmt->fetchAll(PDO::FETCH_ASSOC); //connection from PHP and sql, returns thing in an array
 ?>
 
+
+?>
+
 <?=template_header('Gallery')?>
 <div class="content home">
 	<h2>Gallery</h2>
@@ -30,4 +33,3 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC); //connection from PHP and sql, retu
 </div>
 <div class="image-popup"></div>
 <?=template_footer()?>
-?>
