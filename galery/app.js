@@ -5,7 +5,7 @@ $(document).ready(function () {
   //iterate the images and apply the onclick event to each individual image
   document.querySelectorAll('.images a').forEach(img_link => {
     //for each image class link
-    img_link =onclick = e =>{
+    img_link = onclick = e =>{
       e.preventDefault();
       let img_meta = img_link.querySelector('img');
       let img = new Image();
@@ -24,13 +24,14 @@ $(document).ready(function () {
       img.src = img_meta.src;
     };
   });
-
   //hide the image popup container, but only if the user clicks outside the image
-  image_popup.onclick = e =>{
+  if( image_popup !== null){
+  image_popup.onclick = e => {
     if(e.target.className == 'image-popup'){
       image_popup.computedStyleMap.display = "none";
     }
   };
+}
 });
 
 

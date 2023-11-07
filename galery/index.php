@@ -13,7 +13,7 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC); //connection from PHP and sql, retu
 ?>
 
 
-?>
+
 
 <?=template_header('Gallery')?>
 <div class="content home">
@@ -32,4 +32,5 @@ $images = $stmt->fetchAll(PDO::FETCH_ASSOC); //connection from PHP and sql, retu
 	</div>
 </div>
 <div class="image-popup"></div>
+
 <?=template_footer()?>
