@@ -7,7 +7,7 @@ function time(){
   if( d.getHours() >= 19 || d.getHours() <= 4){ msj.textContent = "Buenas Noches" ;}
   else if(d.getHours() >= 5 && d.getHours() <= 12) {msj.textContent = "Buenos dias";}
   else if(d.getHours() >= 12 && d.getHours() <= 18) {msj.textContent="Buenas tardes";}
-  time.textContent = hours+":"+minutes+":"+seconds;
+  time.textContent = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
   $('#reloj').html(time);
   $('#msg').html(msj)
 
