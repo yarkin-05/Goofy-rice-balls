@@ -25,7 +25,7 @@ if(isset($_FILES['image'], $_POST['title'], $_POST['description'])){
       //connect to mysql
       $pdo = pdo_connect_mysql();
       //insert image info into database 
-      $stmt = $pdo->prepare('INSERT INTO images(title, description, filepath, date) VALUES (?,?,?, CURRENT_TIMESTAMP)');
+      $stmt = $pdo->prepare('INSERT INTO upload(title, description, filepath, date) VALUES (?,?,?, CURRENT_TIMESTAMP)');
       $stmt->execute([$_POST['title'], $_POST['description'], $image_path]);
       $msg = 'Image uploaded successfully!';
     }
