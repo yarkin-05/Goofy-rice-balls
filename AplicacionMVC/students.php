@@ -18,4 +18,16 @@
         <th><?= $student['birthdate']?></th>
       <tr>
 <?php endforeach;?>
+
+<input type='number' value='' id='id'>
+<label for='id'> Enter id </label> <br>
+<div style="display: block;">
+  <input style="display: block;" type="button" value='getAll' name='getAll' > 
+  <input type="button" value='getOne' name='getOne' > 
+  <input style="display: block;" type="button" value='insert' name='insert' > 
+  <input type="button" value='update' name='update' > 
+  <input type="button" value='delete' name='delete' > 
+</div>
+
+
 <?=template_footer()?>
