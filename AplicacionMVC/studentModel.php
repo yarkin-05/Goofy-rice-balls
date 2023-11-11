@@ -1,21 +1,18 @@
 <?php
 
 include 'connect.php';
-class Student{
-  public $pdo;
-
-  public function __construct(){
-    $this->pdo = pdo_connect_mysql();
-  }
-  function getAll(){
+class Students{
+  
+  public function getAll(){
     //obtiene todos los registros
     $pdo = pdo_connect_mysql();
     $stmt = $pdo->query('SELECT * FROM students ORDER BY date DESC');
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+
+    return 'result,io';
   }
 
-  function getOne($id){
+  public function getOne($id){
     //obtiene un registro
     $pdo = pdo_connect_mysql();
     $stmt = $pdo->prepare('SELECT * FROM students WHERE id = ?');
@@ -24,18 +21,26 @@ class Student{
     return $result;
   }
 
-  function store(){
-    //crea un nuevo registro
+  public function store(){
+    //crea un nuevo registro, aunque tecnicamente nomas prepara el argumento
     $pdo = pdo_connect_mysql();
-    $stmt = $pdo->prepare('INSERT INTO students FROM students (username, name, last_name, birthdate)');
+    $stmt = $pdo->prepare('INSERT INTO students (username, name, last_name, birthdate) VALUES (?,?,?,?)');
     return $stmt;
   }
 
-  function update($id){
+  public function update($id, $username, $name, $last_name, $birthdate){
     //actualiza un registro
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo -> prepare('UPDATE students SET (username, name, last_name, birthdate) VALUES (?,?,?,?) WHERE id =  ?');
+    $stmt->bindParam(1, $username);
+    $stmt->bindParam(2, $name);
+    $stmt->bindParam(3, $last_name);
+    $stmt->bindParam(4, $birthdate);
+    $stmt->bindParam(5, $id);
+    $stmt->execute();
   }
 
-  function delete($id){
+  public function delete($id){
     //elimina un registro
   }
 }

@@ -1,5 +1,5 @@
 <?php
-//Archivo de vista, este archivo en su interior solo recibe como parametro un arreglo para que este pueda ser iterado y mostrado a manera de tabla en PHP, con sus respectivas acciones para crear uno nuevo, editar y elimiar.
+//Archivo de vista
 
   include 'connect.php'; //function that connects to the database
   $pdo = pdo_connect_mysql(); //the conectin the function returns
@@ -16,18 +16,10 @@
         <th><?= $student['name']?></th>
         <th><?= $student['last_name']?></th>
         <th><?= $student['birthdate']?></th>
+        <th> <button type='submit' name='delete' id='delete' value='<?= $student['id']?>'> Delete </button> </th>
+        <th> <button type='submit' name='details' id='details' value='<?= $student['id']?> '> Show details </button> </th>
+        <th> <button type='submit' name='update' id='update' value='<?= $student['id']?>' > Update </button></th>
       <tr>
 <?php endforeach;?>
-
-<input type='number' value='' id='id'>
-<label for='id'> Enter id </label> <br>
-<div style="display: block;">
-  <input style="display: block;" type="button" value='getAll' name='getAll' > 
-  <input type="button" value='getOne' name='getOne' > 
-  <input style="display: block;" type="button" value='insert' name='insert' > 
-  <input type="button" value='update' name='update' > 
-  <input type="button" value='delete' name='delete' > 
-</div>
-
 
 <?=template_footer()?>

@@ -31,12 +31,19 @@ function template_header($title){
       <link rel="stylesheet" href="styles.css">
     </head>
     <body>
+      <nav> 
+        <button type="submit" name='getAll' id='getAll' value = ''>  Show all students </button>
+        <button type="submit" name='register' id='register' value=''> Register </button>      
+      </nav>
       <table>
         <tr>
           <th> Username </th> 
           <th> Name </th> 
           <th> Last_name </th> 
           <th> Birthday </th> 
+          <th> Delete </th>
+          <th> Details </th>
+          <th> Update </th>
         <tr>
       
 EOT;
