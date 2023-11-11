@@ -24,24 +24,47 @@ $(document).ready(function(){
 
     
 
-    $('button[type=submit]').click(function(e){
-      e.preventDefault();
+    $('input[type=submit]').click(function(e){
+      e.preventDefault(e);
 
-      let decision = $(this).name; //lo que tiene que hacer
-      let id = $(this).val(); //el id donde lo tiene que hacer
-
+      let decision = $(this).attr('value'); // Use 'attr' to get the value attribute
+      console.log(this);
+      let id = $(this).attr('name'); // Use 'attr' to get the name attribute
+      console.log('decision: ' + decision);
+      console.log('id: ' + id);
+  
       $.ajax({
         url:'studentsController.php',
-        type: 'POST',
+        type: 'GET',
         data:{
           'action': decision,
           'id': id
-        },
+        },         
         success: function(msg){
           console.log(msg);   
-        }
-        }).error(function(response){
-            console.log('error ' + response);
+          /*let students = JSON.parse(msg);
+
+            // Manipulate the DOM to display the information
+            students.forEach(student => {
+                // Create and append HTML elements based on the data
+                
+                let row = '<tr>';
+                row += `<th>${student.username}</th>`;
+                row += `<th>${student.name}</th>`;
+                row += `<th>${student.last_name}</th>`;
+                row += `<th>${student.birthdate}</th>`;
+                row += `<th> <input type='submit' name='${student.id}' id='delete' value='delete'> </th>`;
+                row += `<th> <input type='submit' name='${student.id}' id='details' value='details'> </th>`;
+                row += `<th> <input type='submit' name='${student.id}' id='update' value='update'> </th>`;
+                row += '</tr>';
+
+                // Append the row to the table
+                $('#table').append(row);
+
+              });*/
+            }
+          }).error(function(response){
+            console.log('error hi ' + response);
           });
       });
 })
