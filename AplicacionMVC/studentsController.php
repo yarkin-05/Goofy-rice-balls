@@ -7,14 +7,13 @@ include 'studentModel.php'; // funciones de todo
 $operation = isset($_GET['action']) ? $_GET['action'] : null;
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 
-echo 'action: ' .$_GET['action'].'\n\n'; // Debugging line
+//echo 'action: ' .$_GET['action'].'\n\n'; // Debugging line
 
 $student = new Students(); // Instantiate the Students class
 if ($operation === 'show') {
-    $result = $student->getAll();
     //header('Content-Type: application/json');
-    var_dump($result);
-    echo json_encode($result);
+    //var_dump($result);
+    echo json_encode($student->getAll());
 } else {
     echo 'Unknown operation ';
 }
