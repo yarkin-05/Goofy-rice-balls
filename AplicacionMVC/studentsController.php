@@ -8,11 +8,14 @@ include 'studentModel.php'; // funciones de todo
 $operation = isset($_GET['action']) ? $_GET['action'] : null; 
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 
-//echo 'action: ' .$_GET['action'].'\n\n'; // Debugging line
 $student = new Students(); // Instantiate the Students class
 if ($operation !== null and $id !== null) {
-if ($operation === 'show') echo json_encode($student->getAll()); //Show all users
-else if ($operation === 'details' and $id !== -1) echo $student->details($id); //Show the details of one
+
+  if ($operation === 'show') echo json_encode($student->getAll()); //Show all users
+
+  else if ($operation === 'details' and $id !== -1) {
+    echo json_encode($student->details($id)); //Show the details of one
+}
 }else{
   echo "Didn't provide proper information";
 }

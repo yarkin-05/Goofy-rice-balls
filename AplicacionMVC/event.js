@@ -18,9 +18,23 @@ function getAll(students)
   });
 }
 
-function detail(student){
-  let pop = 'div class="popup">';
-    pop += `<span class="popuptext" id="myPopup">Popup text...</span>`;
+function details(student){
+  var popupContainer = document.getElementById("popup-container");
+
+    // Set the content of the popup
+    popupContainer.innerHTML = `
+        <p>Name: ${student.name}</p>
+        <p>Last Name: ${student.last_name}</p>
+        <p>Username: ${student.username}</p>
+        <p>Birthday: ${student.birthdate}</p>
+    `;
+    // Show the popup
+    popupContainer.style.display = "block";
+
+    // Close the popup after 3 seconds (adjust as needed)
+    setTimeout(function() {
+        popupContainer.style.display = "none";
+    }, 5000);
 }
 
 $(document).ready(function(){
@@ -67,8 +81,8 @@ $(document).ready(function(){
           'id': id
         },         
         success: function(msg){
-          console.log('message: ' + msg); //response of server
-          console.log(typeof(msg)); //type of response
+          //console.log('message: ' + msg); //response of server
+          //console.log(typeof(msg)); //type of response
 
           if (decision === 'show'){
             $("#table tbody tr").remove(); //removrs the tables body          
@@ -76,7 +90,11 @@ $(document).ready(function(){
             getAll(students);
           }
           if (decision === 'details'){
+            let student = JSON.parse(msg); //parsing into json array to execute the DOM manipulation
+            console.log(student);
+            
 
+            details(student);
           }
 
           }

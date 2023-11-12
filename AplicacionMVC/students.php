@@ -12,13 +12,16 @@
 ?>
 
 <?=template_header('Students Table')?>
-<tr>
-  <th>${student.username}</th>
-    <th>${student.name}</th>
-    <th>${student.last_name}</th>
-    <th>${student.birthdate}</th>
-    <th> <input type='submit' name='${student.id}' id='delete' value='delete'>
-    <th> <input type='submit' name='${student.id}' id='details' value='details'> 
-    row += `<th> <input type='submit' name='${student.id}' id='update' value='update'> </th>`;
-    row += '</tr>';
+<?php foreach($students as $student):?>
+      <tr>
+        <th><?= $student['username']?></th>
+        <th><?= $student['name']?></th>
+        <th><?= $student['last_name']?></th>
+        <th><?= $student['birthdate']?></th>
+        <th> <input type='submit' value='delete' id='delete' name='<?= $student['id']?>'></th>
+        <th> <input type='submit' value='details' id='details' name='<?= $student['id']?> '>  </th>
+        <th> <input type='submit' value='update' id='update' name='<?= $student['id']?>' > </th>
+      <tr>
+<?php endforeach;?>
+
 <?=template_footer()?>

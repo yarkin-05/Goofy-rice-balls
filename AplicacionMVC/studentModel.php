@@ -14,8 +14,10 @@ class Students {
 
     public function details($id){
       $pdo = pdo_connect_mysql();
-      $stmt = $pdo->prepare('SELECT * FROM students WHERE id = ?');
-      $result = $stmt -> execute([$id]);
+      $stmt = $pdo->prepare('SELECT * FROM students WHERE id=:id');
+      $stmt -> execute(['id' => $id]);
+      $result = $stmt->fetch();
+      //var_dump($result);
       return $result;
     }
 }
