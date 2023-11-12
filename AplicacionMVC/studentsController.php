@@ -53,28 +53,5 @@ else{
     }
 }
 
-?>
 
-<?php if (isset($_POST['action']) && $$_POST['action'] === 'register'): ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <form action='studentsController.php' method='post'>
-    <input type='text' placeholder="Username" id='username'>
-    <input type='text' placeholder="Name" id='name'>
-    <input type='text' placeholder="Last Name" id='last_name'>
-    <input type='birthday' placeholder='Birthday' id='birthdate'>
-    <input type='submit' value='Register!' id='Register'>
-  </form>
-  <script src="event.js"></script>
 
-</body>
-</html>
-<?php endif; ?>
-
-<!-- in case operation = getA -->
