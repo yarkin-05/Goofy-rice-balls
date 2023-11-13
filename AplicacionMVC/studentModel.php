@@ -21,11 +21,18 @@ class Students {
       return $result;
     }
 
-    public function update($id, $data) {
+    public function update($id, $user, $name, $last_name, $birthday){
       $pdo = pdo_connect_mysql();
-      $stmt = $pdo->prepare('UPDATE students SET username=?, name=?, last_name = ?, birthdate = ? WHERE id=?');
-      $result = $pdo->prepare($stmt);
-      $stmt -> execute([$id]);
+      $stmt = $pdo->prepare('UPDATE students SET username = ?, name = ?, last_name = ?, birthdate = ? WHERE id = ?');
+      $stmt -> execute([$user, $name, $last_name, $birthday, $id]);
+    }
+
+    public function store($user, $name, $last_name, $birthday){
+      $pdo = pdo_connect_mysql();
+      $stmt = $pdo->prepare('INSERT INTO students (username, name, last_name, birthdate) VALUES (?,?,?,?)');
+      $stmt -> execute([$user, $name, $last_name, $birthday]);
+      $result = $stmt->fetch();
+      return $result;
     }
 }
 

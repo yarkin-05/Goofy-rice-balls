@@ -27,13 +27,19 @@ $student = new Students(); // Instantiate the Students class
     $lastname = $_POST['lastname'];
     $birthday = $_POST['birthday'];
 
-    echo $username, $name, $lastname, $birthday, $op, $ids;
-    if ( $id != -1) {
+    //echo $username, $name, $lastname, $birthday, $op, $ids;
+  
+    if($ids !== '-1'){
       //update
-    }
-    else{
+      $student -> update($ids, $username, $name, $lastname, $birthday);
+      
+      //echo 'hiii';
+    }else{
       //register
+      echo $student -> store($username, $name, $lastname, $birthday);
     }
+    header('Location: students.php');
+    
   }
 
 ?>
