@@ -34,6 +34,12 @@ class Students {
       $result = $stmt->fetch();
       return $result;
     }
+
+    public function delete($id){
+      $pdo = pdo_connect_mysql();
+      $stmt = $pdo->prepare('DELETE FROM students WHERE id=?');
+      $stmt -> execute([$id]);
+    }
 }
 
 ?>

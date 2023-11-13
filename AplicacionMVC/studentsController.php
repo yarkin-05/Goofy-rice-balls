@@ -41,5 +41,8 @@ $student = new Students(); // Instantiate the Students class
     header('Location: students.php');
     
   }
+  else if ($operation === 'delete' and $id !== -1) {
+    $student -> delete($id);
+  }
 
 ?>
