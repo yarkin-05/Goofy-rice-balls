@@ -20,7 +20,7 @@
         <th><?= $student['birthdate']?></th>
         <th> <input type='submit' value='delete' id='delete' name='<?= $student['id']?>'></th>
         <th> <input type='submit' value='details' id='details' name='<?= $student['id']?> '>  </th>
-        <th> <input type='submit' value='update' id='update' name='<?= $student['id']?>' > </th>
+        <th> <button type='submit' value='update' id='update' name='<?= $student['id']?>' > Update </button> </th>
       <tr>
 <?php endforeach;?>
 

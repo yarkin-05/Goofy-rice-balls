@@ -37,71 +37,93 @@ function details(student){
     }, 5000);
 }
 
-$(document).ready(function(){
 
 
-    $('#Register').click(function(e){
+$(document).ready(function() {
+
+
+  $('button[type=submit]').click(function(e) {
       e.preventDefault();
-      //literal añidio un registro
-      $.ajax({
-        url:'studentsController.php',
-        type:'POST',
-        data:{
-          'action': 'Register',
-          'username': $('#username').value,
-          'name': $('#username').value,
-          'lastname' : $('#lastname').value,
-          'birthdate' : $('#birthdate').value
-        },
-        success: function(msg){
-          console.log('User added! '. msg);
-          headers('/students');
+      let id = $(this).attr('name');
+      let decision = $(this).attr('value');
+      console.log(decision);
+      console.log(id);
+
+      if (decision === 'register' || decision === 'update') {
+        // Append the form to the container
+        $('#formContainer').html(`
+          <form method='post' action='studentsController.php'>
+            <input type='text' placeholder="Username" id='username' name='username'>
+            <input type='text' placeholder="Name" id='name' name='name'>
+            <input type='text' placeholder="Last Name" id='lastname' name='lastname'>
+            <input type='text' placeholder='Birthday' id='birthdate' name='birthday'>
+            <input type='hidden' name='action' value='${decision}'>
+            <input type='hidden' name='id' value='${id}'>
+            <button type='submit' value='store' id='Register' name='${id}'>Submit</button>
+          </form>
+        `);
+      } else {
+        // Remove the form from the container
+        $('#formContainer').html('');
+        
+        // Perform AJAX request for other actions (show, details, etc.)
+        $.ajax({
+          url: 'studentsController.php',
+          type: 'POST',
+          data: {
+            'action': decision,
+            'id': id,
+            'username': $('#username').val(),
+            'name': $('#name').val(),
+            'lastname': $('#lastname').val(),
+            'birthdate': $('#birthdate').val()
+          },
+          success: function(msg) {
+            console.log('User added! ' + msg);
+          },
+          error: function(msg) {
+            console.log('Problem with uploading user ' + msg);
+          }
+        });
+      }
+    });
+
+
+  $('input[type=submit]').click(function(e){
+    e.preventDefault(e);
+
+    let id = -1;
+    let decision = $(this).attr('value'); // action
+    console.log(this);
+    id = $(this).attr('name'); // id
+    console.log('decision: ' + decision);
+    console.log('id: ' + id);
+
+    $.ajax({
+      url:'studentsController.php',
+      type: 'GET',
+      data:{
+        'action': decision,
+        'id': id
+      },         
+      success: function(msg){
+        //console.log('message: ' + msg); //response of server
+        //console.log(typeof(msg)); //type of response
+
+        if (decision === 'show'){
+          $("#table tbody tr").remove(); //removrs the tables body          
+          let students = JSON.parse(msg); //parsing into json array to execute the DOM manipulation
+          getAll(students);
         }
-      }).error(function(msg){
-        console.log('Problem with uploading user ' . msg );
-      });
-    })
+        if (decision === 'details'){
+          let student = JSON.parse(msg); //parsing into json array to execute the DOM manipulation
+          details(student);
+        }
 
-
-    $('input[type=submit]').click(function(e){
-      e.preventDefault(e);
-
-      let id = -1;
-      let decision = $(this).attr('value'); // action
-      console.log(this);
-      id = $(this).attr('name'); // id
-      console.log('decision: ' + decision);
-      console.log('id: ' + id);
-  
-      $.ajax({
-        url:'studentsController.php',
-        type: 'GET',
-        data:{
-          'action': decision,
-          'id': id
-        },         
-        success: function(msg){
-          //console.log('message: ' + msg); //response of server
-          //console.log(typeof(msg)); //type of response
-
-          if (decision === 'show'){
-            $("#table tbody tr").remove(); //removrs the tables body          
-            let students = JSON.parse(msg); //parsing into json array to execute the DOM manipulation
-            getAll(students);
-          }
-          if (decision === 'details'){
-            let student = JSON.parse(msg); //parsing into json array to execute the DOM manipulation
-            console.log(student);
-            
-
-            details(student);
-          }
-
-          }
-          }).error(function(response){
-            console.log('error hi ' + response);
-          });
-      });
+        }
+        }).error(function(response){
+          console.log('error hi ' + response);
+        });
+  });
 })
-      
- 
+    

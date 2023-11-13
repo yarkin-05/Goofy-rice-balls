@@ -20,6 +20,13 @@ class Students {
       //var_dump($result);
       return $result;
     }
+
+    public function update($id, $data) {
+      $pdo = pdo_connect_mysql();
+      $stmt = $pdo->prepare('UPDATE students SET username=?, name=?, last_name = ?, birthdate = ? WHERE id=?');
+      $result = $pdo->prepare($stmt);
+      $stmt -> execute([$id]);
+    }
 }
 
 ?>
