@@ -33,7 +33,7 @@ function template_header($title){
     <body>
       <nav> 
         <input type="submit" name='-1' id='getAll' value = 'show'>
-        <button type="submit" name='register' id='register' value=''> Register </button>      
+        <button type="submit" name='-1' id='register' value='register'>   Register  </button
       </nav>
       <div id="popup-container"></div>
       <table id='table'>
@@ -54,6 +54,8 @@ function template_footer(){
   echo <<<EOT
 
   </table>
+  <div id="formContainer"></div>
+ 
   <script src="https://code.jquery.com/jquery-2.2.4.js"integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
 
   <script src="event.js"></script>
