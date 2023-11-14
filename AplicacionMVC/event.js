@@ -41,7 +41,6 @@ function details(student){
 
 $(document).ready(function() {
 
-
   $('button[type=submit]').click(function(e) {
       e.preventDefault();
       let id = $(this).attr('name');
@@ -92,10 +91,9 @@ $(document).ready(function() {
   $('input[type=submit]').click(function(e){
     e.preventDefault(e);
 
-    let id = -1;
     let decision = $(this).attr('value'); // action
     console.log(this);
-    id = $(this).attr('name'); // id
+    let id = $(this).attr('name'); // id
     console.log('decision: ' + decision);
     console.log('id: ' + id);
 
