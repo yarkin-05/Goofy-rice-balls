@@ -35,6 +35,7 @@ function template_header($title){
         <input type="submit" name='-1' id='getAll' value = 'show'>
         <button type="submit" name='register' id='register' value=''> Register </button>      
       </nav>
+      <div id="popup-container"></div>
       <table id='table'>
         <thead>
           <th> Username </th> 

@@ -9,9 +9,16 @@ class Students {
         $pdo = pdo_connect_mysql();
         $stmt = $pdo->query('SELECT * FROM students ORDER BY id DESC');
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        // Output the result for debugging purposes
-        //var_dump($result);
         return $result;
+    }
+
+    public function details($id){
+      $pdo = pdo_connect_mysql();
+      $stmt = $pdo->prepare('SELECT * FROM students WHERE id=:id');
+      $stmt -> execute(['id' => $id]);
+      $result = $stmt->fetch();
+      //var_dump($result);
+      return $result;
     }
 }
 
