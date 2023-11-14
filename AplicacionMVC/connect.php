@@ -32,11 +32,11 @@ function template_header($title){
     </head>
     <body>
       <nav> 
-        <button type="submit" name='getAll' id='getAll' value = ''>  Show all students </button>
+        <input type="submit" name='-1' id='getAll' value = 'show'>
         <button type="submit" name='register' id='register' value=''> Register </button>      
       </nav>
-      <table>
-        <tr>
+      <table id='table'>
+        <thead>
           <th> Username </th> 
           <th> Name </th> 
           <th> Last_name </th> 
@@ -44,7 +44,7 @@ function template_header($title){
           <th> Delete </th>
           <th> Details </th>
           <th> Update </th>
-        <tr>
+        </thead>
       
 EOT;
 }
