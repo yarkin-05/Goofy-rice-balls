@@ -38,8 +38,6 @@ CREATE TABLE `students`.`student_courses` (
   FOREIGN KEY (`course_id`) REFERENCES `students`.`courses`(`id`)
 ) ENGINE = InnoDB;
 
-Asignarte a todas las materias del curso con un 9.5 de calificación
-
 INSERT INTO students.student_courses (student_id, course_id, grade) 
 SELECT s.id, c.id, 9.5
 FROM students.students AS s
