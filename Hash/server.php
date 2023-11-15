@@ -6,28 +6,33 @@ include 'connect.php';
 
 $page = $_POST['page'];
 
-if ($page === 'login' and !isset($_SESSION['user'])) {
-    $username = $_POST['username'];
-    $name = $_POST['name'];
-    $last_name = $_POST['last_name'];  // Corrected variable name
-    $birthday = $_POST['birthday'];
+if (isset($_SESSION['user'])){
+  //ya hay sesion activa
 
-    $pdo = pdo_connect_mysql();
-    $stmt = $pdo->prepare('INSERT INTO students (username, name, last_name, birthdate) VALUES (?,?,?,?)');
-    $stmt->execute([$username, $name, $last_name, $birthday]);
-
-    session_start();
-    $_SESSION['user'] = $username;
-    echo 'Insertion was a success!';
-    //header('Location: password.php');  // Uncomment this line if needed
-
-} elseif ($page !== 'login' and !isset($_SESSION['user'])) {
-    echo 'You need to be logged in';
-    header('Location: login.php');  // Corrected 'Location'
-
-} elseif (!isset($_SESSION['user'])) {
-    echo 'You need to be logged in';
-    header('Location: login.php');  // Corrected 'Location'
 }
+else{
+  if ($page === 'login') {
+      $username = $_POST['username'];
+      $name = $_POST['name'];
+      $last_name = $_POST['last_name'];  
+      $birthday = $_POST['birthday'];
+      $password = $_POST['password'];
+      $hash = password_hash($password, PASSWORD_DEFAULT); //hash del 0000
+
+      $pdo = pdo_connect_mysql();
+      $stmt = $pdo->prepare('INSERT INTO students (username, name, last_name, birthdate, password) VALUES (?,?,?,?,?)');
+      $stmt->execute([$username, $name, $last_name, $birthday, $hash]);
+
+      //session_start();
+      //$_SESSION['user'] = $username; //start session variable
+      //echo 'Insertion was a success!';
+      header('Location: password.php');  // Uncomment this line if needed
+
+  } else if ($page !== 'login') {
+     // header('Location: login.php');  // Corrected 'Location'
+      echo 'Error in logging in';
+  } 
+}
+  echo 'Session running, please logout';
 
 ?>
