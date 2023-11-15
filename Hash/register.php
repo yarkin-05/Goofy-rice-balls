@@ -12,20 +12,26 @@ error_reporting(E_ALL);
             <div class="form-holder">
                 <div class="form-content">
                     <div class="form-items">
-                        <h3>Login Today</h3>
+                        <h3>Register Today</h3>
                         <p>Fill in the data below.</p>
                         <form class="requires-validation" novalidate>
 
                             <div class="col-md-12">
-                               <input class="form-control" type="text" name="username" placeholder="Username" id="usern" required>
+                               <input class="form-control" type="text" name="name" placeholder="Name" id="name" required>
                             </div>
                             <div class="col-md-12">
-                               <input class="form-control" type="password" name="password" placeholder="Password" id="password_login" required>
+                               <input class="form-control" type="text" name="username" placeholder="username" id="user" required>
                             </div>
+                            <div class="col-md-12">
+                               <input class="form-control" type="text" name="lastname" placeholder="Last name" required id="last_name">
+                            </div>
+                            <div class="col-md-12">
+                               <input class="form-control" type="text" name="birthday" placeholder="Birthday" id="birthday" required>
+                            </div>
+                            
                             <div class="form-button mt-3">
-                                <button id="login" type="submit" class="btn btn-primary">Log In</button>
+                                <button id="register" type="submit" class="btn btn-primary">Register</button>
                             </div>
-                          
                         </form>
                     </div>
                 </div>
