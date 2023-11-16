@@ -30,7 +30,6 @@
     <body>
       <nav class=''>
         <ul class='nav-top'>
-          <li class='nav-top'><a href="grades.php">Grades</a></li>
           <li class='nav-top'><a href="courses.php">Courses</a></li>
           <li class='nav-top'><a href="logout.php">Log out</a></li>
           <li class='nav-top'><a href="login.php">Log In</a></li>

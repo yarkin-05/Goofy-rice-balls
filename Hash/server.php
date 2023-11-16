@@ -6,29 +6,30 @@ include 'connect.php';
 
 $page = $_POST['page'];
 $pdo = pdo_connect_mysql();
+global $session;
+global $def_user; 
+global $def_id;
+global $def_password;
 
-if (isset($_SESSION['user'])){
-  //ya hay sesion activa
   if($page === 'password'){
     $password = $_POST['password'];
-    $hashed = password_hash($password, PASSWORD_DEFAULT); //hash of the password
+    $hashed = crypt($password, CRYPT_MD5); //hash of the password
 
     $stmt = $pdo->prepare('UPDATE students SET password = ?, changed_password = ? WHERE id = ?');
-    $stmt -> execute([$hashed, 1, $_SESSION['id']]);
-    $_SESSION['password'] = $hashed; //password var session
-    header('Location: courses.php');
-
+    $stmt -> execute([$hashed, 1, $def_id]);
+    $def_password = $hashed;
+    //header('Location: courses.php');
+    echo 'hashed ' . $hashed;
   }
 
-}
-else{
+
   if ($page === 'register') {
       $username = $_POST['username'];
       $name = $_POST['name'];
       $last_name = $_POST['last_name'];  
       $birthday = $_POST['birthday'];
       $password = $_POST['password'];
-      $hash = password_hash($password, PASSWORD_DEFAULT); //hash del 0000
+      $hash = crypt($password, CRYPT_MD5); //hash del 0000
 
       $stmt = $pdo->prepare('INSERT INTO students (username, name, last_name, birthdate, password) VALUES (?,?,?,?,?)');
       $stmt->execute([$username, $name, $last_name, $birthday, $hash]);
@@ -40,9 +41,8 @@ else{
       $result = $stmt->fetch();
       $id = $result['id'];
 
-      $_SESSION['user'] = $username; //start session variable
-      $_SESSION['id'] = $id;
-      $_SESSION['info'] = $result;
+      $def_user = $username; //start session variable
+      $def_id = $id;
 
       //aqui no guardamos el password pq es el default
       header('Location: password.php');  // Uncomment this line if needed
@@ -52,24 +52,26 @@ else{
     $password = $_POST['password'];
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $pdo->prepare('SELECT * FROM students WHERE username=:username AND password=:password');
-    $stmt -> execute(['username' => $username, 'password' => $hash]);
+   // $stmt = $pdo->prepare('SELECT * FROM students WHERE username=:username AND password=:password');
+    //$stmt -> execute(['username' => $username, 'password' => $hash]);
+    $stmt = $pdo->prepare('SELECT * FROM students WHERE username=:username');
+    $stmt -> execute(['username' => $username]);
     $result = $stmt->fetch();
 
-    if(!$result){
-      echo "Username or Password are incorrect";
-    }else{
+    if ($result ) {
       session_start();
-      $_SESSION["user"] = $username;
-      $_SESSION['id'] = $result['id'];
-      $_SESSION['info'] = $result;
-      $_SESSION['password'] = $result['password'];
-      header ('Location: courses.php');
+      $def_user = $username;
+      $def_id = $result['id']; 
+      $def_password = $result['password'];
 
-    }
+      ///header('Location: courses.php');
+      echo 'Session id set: ' . $def_id. 'hi'.' username: '.$def_user.' , password: '. $def_password;
+
+  } else {
+      echo 'Username or Password are incorrect'.' username: '.$username.' , password: '. $password, 'hash: '.$hash;
+  }
 
   } 
-}
-  echo 'Session running, please logout';
+
 
 ?>

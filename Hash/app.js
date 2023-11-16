@@ -40,24 +40,24 @@ $(document).ready(function(){
   $('#password_change').click(function(e){
     // Log to check if the click event is firing
     e.preventDefault();
-    let page = 'password';
     let new_password = $('#new_password').val();
     let check_password = $('#check_password').val();
 
     if (new_password === check_password){
       //contraseñas iguales, procede
+      console.log('new: ' + new_password + ' , check: ' + check_password);
       $.ajax({
         url:'server.php',
         type: 'POST',
         data:{
-          'page': page,
+          'page': 'password',
           'password': new_password,
           'check_password': check_password
         },
         success: function(msg){
           // Log to check if the success callback is executed
-      
-          window.location.href = 'courses.php';
+          console.log(msg);
+          //window.location.href = 'courses.php';
           
         },
         error: function(xhr, status, error){
@@ -94,7 +94,8 @@ $(document).ready(function(){
       },
       success: function(msg){
         // Log to check if the success callback is executed
-        window.location.href = 'courses.php';
+        console.log(msg);
+        //window.location.href = 'courses.php';
         
       },
       error: function(xhr, status, error){
