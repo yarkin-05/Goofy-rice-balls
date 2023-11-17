@@ -33,17 +33,14 @@
     </head>
     <body>
       <nav>
-        <ul style='display: flex; justify-content: space around; list-style: none;'>
-          <li style='color: white;'><a href="logout.php">Log out</a></li>
-          <li style='color: white;'><a href="login.php">Log In</a></li>
-
+        <ul class="nav-list">
+          <li><a href="logout.php">Log out</a></li>
+          <li><a href="login.php">Log In</a></li>
         </ul>
       </nav>
-
-    
     EOT;
+}
 
-  }
 
   function template_footer(){
     echo <<<EOT

@@ -149,3 +149,19 @@ html, body {
    color: #2acc80;
 }
 
+ul{
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  list-style: none;
+}
+
+a{
+  color: white;
+  padding: 10px;
+  text-decoration: none;
+}
+
+li{
+  border: 2px solid white;
+}
