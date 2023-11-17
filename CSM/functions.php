@@ -11,9 +11,10 @@
     $DATABASE_PASS = 'root';
     $DATABASE_NAME = 'Contact-System-Manager';
 
-    return new PDO('mysql:host='. $DATABASE_HOST.';dbname='. $DATABASE_NAME. ';charset=utf8', $DATABASE_USER, $DATABASE_PASS);
+    
     try{
-
+      return new PDO('mysql:host='. $DATABASE_HOST.';dbname='. $DATABASE_NAME. ';charset=utf8', $DATABASE_USER, $DATABASE_PASS);
+      
     } catch (PDOException $e) {
       $error = ''. $e->getMessage();
       exit ($error);
