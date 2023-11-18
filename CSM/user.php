@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+//important to note that this part is only for development environments
 
   include 'functions.php';
   class User{
@@ -7,8 +11,10 @@
     protected $email;
     protected $password;
     protected $role;
+    protected $name;
 
-    function __construct($username, $email, $password_hash, $role){
+    function __construct($name, $username, $email, $password_hash, $role){
+      $this->name = $name;
       $this->username = $username;
       $this->email = $email;
       $this->password = $password_hash;

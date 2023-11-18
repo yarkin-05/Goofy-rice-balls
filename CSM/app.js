@@ -1,39 +1,62 @@
-(function () {
-  'use strict' //stricter rules for js
-  const forms = document.querySelectorAll('.requires-validation') //returns a nodelist that requre validation
-  Array.from(forms) //covnerts to an array and uses for each
-    .forEach(function (form) {
-      //for each form, it adds a submit event listener 
-      form.addEventListener('submit', function (event) {
-        //when a for is submitted, it checks if the form is invalid
-        if (!form.checkValidity()) {
-          //if invalid, prevents default from submission and stops event propagation
-          event.preventDefault()
-          event.stopPropagation()
-        }
-  
-        form.classList.add('was-validated') //adds validation
-      }, false) //event in the bubbling phase
-    })
-  })()
-//IIFE -> function that inmediately executed right after its definition, encapsulating te code and preventing variable pollution in the global scope
+function isEmpty(str){
+  return (!str || str.length === 0);
+}
 
 $(document).ready(function(){
 
-  $('#register').submit(function(e){
+  $('#login').click(function(e){
     e.preventDefault();
+    e.stopPropagation();
+
+    let username = $('#username').val();
+    let password = $('#password').val();
+    console.log(username + ' ' + password);
+
+    if(!isEmpty(username) && !isEmpty(password)){
+      let div = document.getElementById('validation');
+      div.innerHTML = '';
+
+      $.ajax({
+        url: 'server.php',
+        type: 'POST',
+        data: {
+          'action' : 'login',
+          'username' : username,
+          'password' : password
+        },
+        success: function(msg){
+          console.log('server responded with: ' + msg);
+        }
+      }).fail(function(jqXHR, textStatus, errorThrown){
+        console.log('error: ' + textStatus);
+      })
+    }else{
+      let div = document.getElementById('validation');
+      div.innerHTML = 'Form invalid, please do not leave anything blank';
+    }
+  });
+
+  $('#register').click(function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    let name = $('#name').val();
     let username = $('#username').val();
     let email = $('#email').val();
-    let role = $('#role').attr('value');
+    let role = $('#role').val();
     let password = $('#password').val();
+    console.log(name + ' ' + username + ' ' + email + ' ' + role + ' ' + password);
+    if(!isEmpty(username) && !isEmpty(email) && !isEmpty(role) && !isEmpty(password)){
 
-    if(!empty(username) && !empty(email) && !empty(role) && !empty(password)){
-
+      let div = document.getElementById('validation');
+      div.innerHTML = '';
+      
+      //si no son vacios
       $.ajax({
         url:'server.php',
         type: 'POST',
         data:{
           'action': 'register',
+          'name': name,
           'username': username,
           'email': email,
           'role': role,
@@ -41,10 +64,14 @@ $(document).ready(function(){
         },
         success: function(msg){
           console.log('server response: ' + msg)
+
         }
-      }).error(function(msg){
-        console.log('error: ' + msg);
-      })
+      }).fail(function(jqXHR, textStatus, errorThrown){
+        console.log('error: ' + textStatus);
+     })
+    }else{
+      let div = document.getElementById('validation');
+      div.innerHTML = 'Form invalid, please do not leave anything blank';
     }
   });
 })
