@@ -5,40 +5,32 @@ error_reporting(E_ALL);
 //important to note that this part is only for development environments
 
   include 'functions.php';
-  class User{
-    protected $id;
-    protected $username;
-    protected $email;
-    protected $password;
-    protected $role;
-    protected $name;
-
-    function __construct($name, $username, $email, $password_hash, $role){
-      $this->name = $name;
-      $this->username = $username;
-      $this->email = $email;
-      $this->password = $password_hash;
-      $this->role = $role;
-    }
-
-    public function store(){
-      $pdo = pdo_connect_mysql(); //connected to the database
-      $stmt = $pdo->prepare('INSERT INTO usuarios (nombre_usuario, correo_electronico, contrasena, rol) VALUES (?,?,?,?)');
-      $stmt -> execute([$this->username, $this->email, $this->password, $this->role]);
-      $this->id = $pdo->lastInsertId(); //fetch the id
-    }
-
-    public function searchUser(){
-
-    }
-
-    public function searchPassword(){
-
-    }
-    public function getId(){
-      return $this->id;
-    }
+  
+  function store($username, $email, $password, $role){
+    $pdo = pdo_connect_mysql(); //connected to the database
+    $stmt = $pdo->prepare('INSERT INTO usuarios (nombre_usuario, correo_electronico, contrasena, rol) VALUES (?,?,?,?)');
+    $stmt -> execute([$username, $email, $password, $role]);
+    $id = $pdo->lastInsertId(); //fetch the id
+    return $id;
   }
+
+  function getInfo($username, $password){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo->prepare('SELECT * FROM usuarios WHERE nombre_usuario = ? AND contrasena = ?');
+    $stmt -> execute([$username, $password]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result;
+  }
+
+  function getPassword($username){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo->prepare('SELECT * FROM usuarios WHERE nombre_usuario = ?');
+    $stmt -> execute([$username]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['contrasena'];
+  }
+
+  
 
 
 

@@ -18,15 +18,40 @@ if (isset($action) and $action === 'register'){
   $username = $_POST['username'];
   $role = $_POST['role'];
 
-
-  $user = new User($name, $username, $email, $password, $role); //new class instance
-  $user -> store(); //inserts it into the table
-
   //saving users credentials
   $_SESSION['username'] = $username; 
-  $_SESSION['id'] = $user -> getId();
+  $_SESSION['id'] = store($username, $email, $password, $role);
   $_SESSION['password'] = $password;
   $_SESSION['role'] = $role;
   $_SESSION['email'] = $email;
+
+}else if (isset($action) and $action === 'login'){
+  //user credentials
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $hashedPassword = getPassword($username);
+
+  //checking passwords
+  if (password_verify($password, $hashedPassword)){
+    //passwords match
+    $_SESSION['username'] = $username;//username
+    $_SESSION['password'] = $hashedPassword;
+
+    $userInfo = getInfo($username, $hashedPassword);
+    if($userInfo !== false){
+      $_SESSION['id'] = $userInfo['id'];
+      $_SESSION['email'] = $userInfo['correo_electronico'];
+      $_SESSION['role'] = $userInfo['rol'];
+    }
+    
+    echo 'Welcome! '.$username;
+
+  }else{
+    echo 'Passwords don\'t match';
+  }
+
+}else{
+  echo 'hi ig';
 }
+
 ?>

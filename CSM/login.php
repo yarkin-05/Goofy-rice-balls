@@ -19,12 +19,6 @@
                             <div class="col-md-12">
                                <input class="form-control" type="text" name="username" placeholder="username" id="username" required>
                             </div>
-                            
-
-                            <div class="col-md-12">
-                                <input class="form-control" type="email" name="email" placeholder="E-mail Address" id="email" required>
-                                
-                            </div>
 
                            <div class="col-md-12">
                                <input class="form-control" type="password" name="password" placeholder="Password" required id="password">

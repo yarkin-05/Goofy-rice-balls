@@ -55,3 +55,4 @@ CREATE TABLE perfiles_usuario (
     informacion_adicional TEXT,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE
 );
+
