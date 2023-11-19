@@ -1,0 +1,180 @@
+/// SQL
+CREATE DATABASE IF NOT EXISTS cms;
+USE cms;
+
+CREATE TABLE IF NOT EXISTS posts (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL
+);
+/// mi index
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>CMS</title>
+</head>
+<body>
+    <div class="container">
+        <h1>CMS</h1>
+
+        <form id="postForm">
+            <label for="title">Titulo:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" required></textarea>
+
+            <button type="button" onclick="savePost()">Save Post</button>
+        </form>
+
+        <div id="posts"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+//// mi css
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/// mi js
+document.addEventListener("DOMContentLoaded", function () {
+    loadPosts();
+});
+
+function loadPosts() {
+    fetch("functions.php?action=get_posts")
+        .then(response => response.json())
+        .then(data => {
+            const postsDiv = document.getElementById("posts");
+            postsDiv.innerHTML = "";
+
+            data.forEach(post => {
+                const postElement = document.createElement("div");
+                postElement.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
+                postsDiv.appendChild(postElement);
+            });
+        });
+}
+
+function savePost() {
+    const title = document.getElementById("title").value;
+    const content = document.getElementById("content").value;
+
+    fetch("functions.php?action=add_post", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `title=${encodeURIComponent(title)}&content=${encodeURIComponent(content)}`,
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                loadPosts();
+                document.getElementById("postForm").reset();
+            } else {
+                alert("Error saving post");
+            }
+        });
+}
+config.php y functions.php
+<?php
+$host = "localhost";
+$username = "your_username";
+$password = "your_password";
+$database = "cms";
+
+$conn = new mysqli($host, $username, $password, $database);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
+  //
+<?php
+include("config.php");
+
+$action = $_GET['action'];
+
+switch ($action) {
+    case 'get_posts':
+        getPosts();
+        break;
+    case 'add_post':
+        addPost();
+        break;
+    default:
+        break;
+}
+
+function getPosts() {
+    global $conn;
+    $result = $conn->query("SELECT * FROM posts");
+    $posts = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $posts[] = $row;
+    }
+
+    echo json_encode($posts);
+}
+
+function addPost() {
+    global $conn;
+
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+
+    $stmt = $conn->prepare("INSERT INTO posts (title, content) VALUES (?, ?)");
+    $stmt->bind_param("ss", $title, $content);
+
+    $success = $stmt->execute();
+    
+    $response = ['success' => $success];
+    echo json_encode($response);
+}
+?>
+
+
+
