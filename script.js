@@ -1,40 +1,46 @@
-document.addEventListener("DOMContentLoaded", function () {
-    loadPosts();
+document.addEventListener('DOMContentLoaded', function () {
+    fetchPosts();
+    document.getElementById('add-post-form').addEventListener('submit', addPost);
 });
 
-function loadPosts() {
-    fetch("functions.php?action=get_posts")
+function fetchPosts() {
+    fetch('api.php')
         .then(response => response.json())
-        .then(data => {
-            const postsDiv = document.getElementById("posts");
-            postsDiv.innerHTML = "";
-
-            data.forEach(post => {
-                const postElement = document.createElement("div");
-                postElement.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
-                postsDiv.appendChild(postElement);
-            });
-        });
+        .then(data => displayPosts(data))
+        .catch(error => console.error('Error:', error));
 }
 
-function savePost() {
-    const title = document.getElementById("title").value;
-    const content = document.getElementById("content").value;
+function displayPosts(posts) {
+    const postsList = document.getElementById('posts-list');
+    postsList.innerHTML = '';
+    posts.forEach(post => {
+        const postDiv = document.createElement('div');
+        postDiv.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p><small>${post.created_at}</small>`;
+        postsList.appendChild(postDiv);
+    });
+}
 
-    fetch("functions.php?action=add_post", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `title=${encodeURIComponent(title)}&content=${encodeURIComponent(content)}`,
+function addPost(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    fetch('api.php', {
+        method: 'POST',
+        body: formData
     })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                loadPosts();
-                document.getElementById("postForm").reset();
+                fetchPosts();
+                document.getElementById('add-post-form').reset();
+                document.getElementById('post-form').style.display = 'none';
             } else {
-                alert("Error saving post");
+                console.error('Error:', data.message);
             }
-        });
+        })
+        .catch(error => console.error('Error:', error));
 }
+
+function showForm() {
+    document.getElementById('post-form').style.display = 'block';
+}
+    
