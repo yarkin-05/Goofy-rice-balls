@@ -26,6 +26,7 @@ $(document).ready(function(){
         },
         success: function(msg){
           console.log('server responded with: ' + msg);
+          window.location.href = 'profile.php';
         }
       }).fail(function(jqXHR, textStatus, errorThrown){
         console.log('error: ' + textStatus);
@@ -64,7 +65,7 @@ $(document).ready(function(){
         },
         success: function(msg){
           console.log('server response: ' + msg)
-
+          window.location.href = 'create_profile.php';
         }
       }).fail(function(jqXHR, textStatus, errorThrown){
         console.log('error: ' + textStatus);
@@ -75,3 +76,4 @@ $(document).ready(function(){
     }
   });
 })
+

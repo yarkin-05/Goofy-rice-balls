@@ -30,6 +30,17 @@ error_reporting(E_ALL);
     return $result['contrasena'];
   }
 
+  function getProfileInfo($id){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo -> prepare('SELECT * FROM perfiles_usuario WHERE id_usuario = ?');
+    $stmt -> execute([$id]);
+    $result = $stmt -> fetch(PDO::FETCH_ASSOC);
+    //var_dump($result);
+    return $result;
+  }
+
+  
+
   
 
 

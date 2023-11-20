@@ -52,6 +52,7 @@ CREATE TABLE valoraciones (
 -- Tabla de Perfiles de Usuario
 CREATE TABLE perfiles_usuario (
     id_usuario INT PRIMARY KEY,
+    filepath TEXT,
     informacion_adicional TEXT,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE
 );
