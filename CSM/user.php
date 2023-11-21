@@ -39,10 +39,38 @@ error_reporting(E_ALL);
     return $result;
   }
 
-  
+  function addPublication($title, $publicationText, $id, $type){
+    $pdo = pdo_connect_mysql(); //connected to the database
+    $stmt = $pdo->prepare('INSERT INTO publicaciones (titulo, contenido, id_autor, tipo) VALUES (?,?,?,?)');
+    $stmt -> execute([$title, $publicationText, $id, $type]);
+    $id = $pdo->lastInsertId(); //fetch the id
+    return $id;
+  }
 
-  
+  function addMedia($publication_id, $file_path ){
+    $pdo = pdo_connect_mysql(); //connected to the database
+    $stmt = $pdo->prepare('INSERT INTO multimedia (publication_id, file_path) VALUES (?,?)');
+    $stmt -> execute([$publication_id, $file_path ]);
+  }
 
+  function Tags_and_Publications($tag_id, $publication_id){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo->prepare('INSERT INTO publication_tags (publication_id, tag_id) VALUES (?,?)');
+    $stmt -> execute([$publication_id, $tag_id]);
+  }
+  function addTags($name){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo->prepare('INSERT INTO tags (tag_name) VALUES (?)');
+    $stmt -> execute([$name]);
+    $id = $pdo->lastInsertId(); //fetch the id
+    return $id;
+  }
 
-
+  function retrieveTags(){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo -> query('SELECT tag_name FROM tags');
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+  }
 ?>
+

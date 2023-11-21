@@ -13,40 +13,49 @@ CREATE TABLE publicaciones (
     contenido TEXT,
     fecha_publicacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_autor INT,
+    corazones INT DEFAULT 0,
+    tipo ENUM('publicacion', 'video', 'foto', 'texto') NOT NULL,
     FOREIGN KEY (id_autor) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
--- Tabla de Categorías
-CREATE TABLE categorias (
+-- Tabla de Comentarios
+CREATE TABLE comentarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_categoria VARCHAR(50) NOT NULL
+    publication_id INT,
+    user_id INT,
+    comentario TEXT NOT NULL,
+    fecha_comentario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (publication_id) REFERENCES publicaciones(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
-
 -- Tabla de Etiquetas
 CREATE TABLE etiquetas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_etiqueta VARCHAR(50) NOT NULL
 );
 
--- Tabla de Comentarios
-CREATE TABLE comentarios (
+
+-- Tabla de Multimedia
+CREATE TABLE multimedia (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT,
-    id_publicacion INT,
-    contenido TEXT,
-    fecha_comentario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE,
-    FOREIGN KEY (id_publicacion) REFERENCES publicaciones(id) ON DELETE CASCADE
+    publication_id INT,
+    file_path VARCHAR(255) NOT NULL,
+    FOREIGN KEY (publication_id) REFERENCES publicaciones(id) ON DELETE CASCADE
 );
 
--- Tabla de Valoraciones
-CREATE TABLE valoraciones (
+-- Tags table
+CREATE TABLE tags (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT,
-    id_publicacion INT,
-    puntuacion INT CHECK (puntuacion >= 1 AND puntuacion <= 5),
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE,
-    FOREIGN KEY (id_publicacion) REFERENCES publicaciones(id) ON DELETE CASCADE
+    tag_name VARCHAR(50) NOT NULL
+);
+
+-- tags with publications
+CREATE TABLE publication_tags (
+    publication_id INT,
+    tag_id INT,
+    PRIMARY KEY (publication_id, tag_id),
+    FOREIGN KEY (publication_id) REFERENCES publicaciones(id) ON DELETE CASCADE,
+    FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
 );
 
 -- Tabla de Perfiles de Usuario
