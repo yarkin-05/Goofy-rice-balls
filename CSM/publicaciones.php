@@ -4,6 +4,8 @@
  ini_set('display_startup_errors', 1);
  error_reporting(E_ALL);
  session_start();
+ $actual_tags = retrieveTags();
+ $publications = fetchAllPublications();
 
  
 ?>
@@ -14,7 +16,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<style> 
+		.tag {
+    display: inline-block;
+    border-radius: 3px;
+    padding: .2em .5em .3em;
+    background: var(--tag-bg);
+    color: var(--text-color);
+    font-weight: 600;
+    margin: .25em .1em;
+    color: white;
+    background-color: #745d80;
+    font-size: .75em;
+    } 
 
+	</style>
   <title>Document</title>
 </head>
 <body>
@@ -23,46 +39,20 @@
 		<div class="header-logo">
 			<a href="#">
 				<div>
-					<img src="fotos_local/cat.png" style="max-height: 32px; width: auto;"/>
+					<img src="fotos_local/cat.png" style="max-height: 50px; width: auto;"/>
 				</div>			
 			</a>
-      <h5> Navigation </h5>
 		</div>
-		<div class="header-navigation">
-			<nav class="header-navigation-links">
-				<a href="#"> Home </a>
-				<a href="#"> Dashboard </a>
-				<a href="#"> Projects </a>
-				<a href="#"> Tasks </a>
-				<a href="#"> Reporting </a>
-				<a href="#"> Users </a>
-			</nav>
-			<div class="header-navigation-actions">
-				<a href="#" class="button">
-					<i class="ph-lightning-bold"></i>
-					<span>Upgrade now</span>
-				</a>
-				<a href="#" class="icon-button">
-					<i class="ph-gear-bold"></i>
-				</a>
-				<a href="#" class="icon-button">
-					<i class="ph-bell-bold"></i>
-				</a>
-				<a href="#" class="avatar">
-					<img src="https://assets.codepen.io/285131/hat-man.png" alt="" />
-				</a>
-			</div>
-		</div>
-		<a href="#" class="button">
+		<a href="logout.php" class="button">
 			<i class="ph-list-bold"></i>
-			<span>Menu</span>
+			<span>Log Out</span>
 		</a>
 	</div>
 </header>
 <main class="main">
 	<div class="responsive-wrapper">
 		<div class="main-header">
-			<h1>Settings</h1>
+			<h1>Navigation</h1>
 			<div class="search">
         <div class="input-group rounded">
           <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
@@ -73,64 +63,77 @@
 			</div>
 		</div>
 		<div class="horizontal-tabs">
-			<a href="#">My details</a>
-			<a href="#">Profile</a>
-			<a href="#">Password</a>
-			<a href="#">Team</a>
-			<a href="#">Plan</a>
-			<a href="#">Billing</a>
-			<a href="#">Email</a>
-			<a href="#">Notifications</a>
-			<a href="#" class="active">Integrations</a>
-			<a href="#">API</a>
+			<a href="profile.php">My Profile</a>
+			<a href="create_publicacion.php"> Add Publications</a>
+			<a href="#">View All Publications</a>
+			<a href="#">View Users</a>
+		
 		</div>
 		<div class="content-header">
 			<div class="content-header-intro">
-				<h2>Intergrations and connected apps</h2>
-				<p>Supercharge your workflow and connect the tool you use every day.</p>
+				<h2>Filter by Tags</h2>
+				<p>Choose user generated tags that apply to your search.</p>
 			</div>
 			<div class="content-header-actions">
-				<a href="#" class="button">
-					<i class="ph-faders-bold"></i>
-					<span>Filters</span>
-				</a>
-				<a href="#" class="button">
-					<i class="ph-plus-bold"></i>
-					<span>Request integration</span>
-				</a>
+				<div id="tag-container">
+					<?php
+						// Loop through the tags and render them within the container
+					foreach ($actual_tags as $tag) {
+						echo '<span class="tag">' . htmlspecialchars($tag['tag_name']) . '</span>';
+					}	
+					?>
+				</div>
+				
 			</div>
 		</div>
 		<div class="content">
 			<div class="content-panel">
 				<div class="vertical-tabs">
-					<a href="#" class="active">View all</a>
-					<a href="#">Developer tools</a>
-					<a href="#">Communication</a>
-					<a href="#">Productivity</a>
-					<a href="#">Browser tools</a>
-					<a href="#">Marketplace</a>
+					<h4>Filter Results by </h4>
+					<a href="#" class="active">Mine</a>
+					<a href="#">User</a>
+					<a href="#">Type</a>
+					<a href="#">Date</a>
 				</div>
 			</div>
 			<div class="content-main">
 				<div class="card-grid">
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/zeplin.svg" /></span>
-								<h3>Zeplin</h3>
+					
+					<?php foreach ($publications as $publication):?>
+						<article class="card">
+							<div class="card-header">
+									<div>
+									<?php if ($publication['tipo'] == 'texto'): ?>
+    								<h3><?= $publication['titulo'] ?></h3>
+									<?php else: ?>
+											<?php
+											$filepath = fetchMedia($publication['id']);
+											if ($filepath): ?>
+													<span><img src="<?= $filepath['file_path'] ?>" alt="Publication Image"></span>
+											<?php endif; ?>
+											<h3><?= $publication['titulo']; ?></h3>
+											<h3><?= $publication['id'] ?></h3>
+									<?php endif; ?>
+									</div>
+									<label class="toggle">
+										<input type="checkbox" checked>
+										<span></span>
+									</label>
+								</div>
+								<div class="card-body">
+								<p><?= $publication['contenido'] ?></p>
 							</div>
-							<label class="toggle">
-								<input type="checkbox" checked>
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Collaboration between designers and developers.</p>
-						</div>
+						</article>
+
+					<?php endforeach; ?>
+
+
+						
+						
+						
 						<div class="card-footer">
 							<a href="#">View integration</a>
 						</div>
-					</article>
 					<article class="card">
 						<div class="card-header">
 							<div>
@@ -335,12 +338,30 @@
 	</div>
 </main>
 
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
       <script src="app.js"></script>
+			const tags = document.querySelectorAll('.tag');
+
+			<script>
+			// Function to handle tag click
+				const tags = document.querySelectorAll('.tag');
+
+				function handleTagClick(event) {
+				const clickedTag = event.target.textContent.trim(); // Get the text content of the clicked tag
+				const tagInput = document.getElementById('tag-input'); // Get the input field
+	
+				// add the nesecarry sql for this
+				}
+
+// Attach click event listeners to all tag elements
+			tags.forEach(tag => {
+				tag.addEventListener('click', handleTagClick);
+			});
+</script>
 </body>
 </html>

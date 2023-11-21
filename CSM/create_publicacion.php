@@ -55,11 +55,12 @@
             //it is an image
             $target_dir = 'multimedia/';
             $image_path = $target_dir . basename($_FILES['mediaInput']['name']);
-            move_uploaded_file($_FILES['mediaInput']['name'], $image_path);
+            move_uploaded_file($_FILES['mediaInput']['tmp_name'], $image_path);
             //connect to mysql
             $publication_id = addPublication($title, '-1', $id, 'image');
             addMedia($publication_id, $image_path);
             tags($publication_id);
+            
             header('Location: publicaciones.php');
 
           } 
@@ -67,11 +68,12 @@
             //it is a video
             $target_dir = 'multimedia/';
             $video_path = $target_dir . basename($_FILES['mediaInput']['name']);
-            move_uploaded_file($_FILES['mediaInput']['name'], $video_path);
+            move_uploaded_file($_FILES['mediaInput']['tmp_name'], $video_path);
             //connect to mysql
             $publication_id = addPublication($title, '-1', $id, 'video');
             addMedia($publication_id, $image_path);
             tags($publication_id);
+            
             header('Location: publicaciones.php');
 
           } 
@@ -96,10 +98,9 @@
 
         // Check if it's an image
         if (in_array($fileExtension, $allowedExtensions)) {
-          //it is an image + text
           $target_dir = 'multimedia/';
           $media_path = $target_dir . basename($_FILES['mediaInput']['name']);
-          move_uploaded_file($_FILES['mediaInput']['name'], $media_path);
+          move_uploaded_file($_FILES['mediaInput']['tmp_name'], $media_path);
           //connect to mysql
           $publication_id = addPublication($title, $publicationText, $id, 'publicacion');
           addMedia($publication_id, $media_path);

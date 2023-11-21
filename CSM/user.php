@@ -72,5 +72,21 @@ error_reporting(E_ALL);
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
   }
+
+  function fetchAllPublications(){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo -> query('SELECT * FROM publicaciones');
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+  }
+
+  function fetchMedia($id) {
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo->prepare('SELECT file_path FROM multimedia WHERE publication_id = ?');
+    $stmt->execute([$id]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch a single row as an associative array
+    //var_dump($result['filepath']);
+    return $result;
+  }
 ?>
 
