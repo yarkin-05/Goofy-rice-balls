@@ -80,6 +80,14 @@ error_reporting(E_ALL);
     return $result;
   }
 
+  function fetchPublication($id){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo -> prepare('SELECT * FROM publicaciones WHERE id = ?');
+    $stmt->execute([$id]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    //var_dump($result);
+    return $result;
+  }
   function fetchMedia($id) {
     $pdo = pdo_connect_mysql();
     $stmt = $pdo->prepare('SELECT file_path FROM multimedia WHERE publication_id = ?');
@@ -87,6 +95,47 @@ error_reporting(E_ALL);
     $result = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch a single row as an associative array
     //var_dump($result['filepath']);
     return $result;
+  }
+
+  function fetchAutor($id){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo->prepare('SELECT nombre_usuario FROM usuarios WHERE id = ?');
+    $stmt -> execute([$id]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result;
+    
+  }
+
+  function fetchTags($publication_id){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo -> prepare(' SELECT * FROM tags AS t
+    JOIN publication_tags AS ptag
+    ON t.id = ptag.tag_id 
+    WHERE ptag.publication_id = ?
+    ');
+    $stmt -> execute([$publication_id]);
+    $result = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+    //var_dump($result);
+    return $result;
+  }
+
+  function updateTag($input, $id){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo->prepare('UPDATE tags SET tag_name = ? WHERE id = ?');
+    $stmt -> execute([$input, $id]);
+  }
+
+  function updatePublication($title, $content, $type, $id){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo -> prepare('UPDATE publicaciones SET titulo = ?, contenido = ?, tipo = ? WHERE id = ?');
+    $stmt -> execute([$title, $content, $type, $id]);
+  }
+
+
+  function deleteTag($pub_id, $tag_id){
+    $pdo = pdo_connect_mysql();
+    $stmt = $pdo->prepare('DELETE FROM  publication_tags WHERE publication_id = ? AND tag_id = ?');
+    $stmt -> execute([$pub_id, $tag_id]);
   }
 ?>
 

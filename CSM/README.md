@@ -5,7 +5,7 @@
   - [ ] Acceso restringido a ciertas funcionalidades según el rol del usuario.
   - [ ] Gestión de Publicaciones:
   - [ ] Creación, edición y eliminación de publicaciones.
-  - [ ] Publicaciones con contenido enriquecido (pueden incluir imágenes,videos, etc.).
+  - [x] Publicaciones con contenido enriquecido (pueden incluir imágenes,videos, etc.).
   - [ ] Categorización de publicaciones (etiquetas, categorías, etc.).
   - [ ] Los usuarios registrados pueden comentar en las publicaciones.
   - [ ] Sistema de valoración para las publicaciones.

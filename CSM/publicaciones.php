@@ -16,6 +16,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+
 	<style> 
 		.tag {
     display: inline-block;
@@ -103,235 +105,49 @@
 						<article class="card">
 							<div class="card-header">
 									<div>
-									<?php if ($publication['tipo'] == 'texto'): ?>
-    								<h3><?= $publication['titulo'] ?></h3>
-									<?php else: ?>
-											<?php
-											$filepath = fetchMedia($publication['id']);
-											if ($filepath): ?>
-													<span><img src="<?= $filepath['file_path'] ?>" alt="Publication Image"></span>
-											<?php endif; ?>
-											<h3><?= $publication['titulo']; ?></h3>
-											<h3><?= $publication['id'] ?></h3>
-									<?php endif; ?>
+										<?php if ($publication['tipo'] == 'texto'): ?>
+											<h3><?= $publication['titulo'] ?></h3>
+										<?php else: ?>
+												<?php
+												$filepath = fetchMedia($publication['id']);
+												if ($filepath): ?>
+														<span><img src="<?= $filepath['file_path'] ?>" alt="Publication Image"></span>
+												<?php endif; ?>
+												<h3><?= $publication['titulo']; ?></h3>
+										<?php endif; ?>
 									</div>
-									<label class="toggle">
-										<input type="checkbox" checked>
-										<span></span>
-									</label>
+									
 								</div>
-								<div class="card-body">
+							<div class="card-body">
+								<?php
+								 $user_id = $publication['id_autor'];
+								 $autor = fetchAutor($user_id);
+								?>
 								<p><?= $publication['contenido'] ?></p>
-							</div>
-						</article>
+								<p> Author: <?=$autor['nombre_usuario'] ?></p>
 
+							</div>
+							<div class="card-footer" style="display:flex; justify-content: space-around;">
+								
+							<a href="edit_publication.php?id=<?= $publication['id'] ?>">Edit publication</a>
+    					<button class="icon-btn"><i class="far fa-heart"></i></button>
+    					<button class="icon-btn"><i class="far fa-envelope"></i></button>
+							<button class="icon-btn"><i class="fas fa-trash-alt"></i></button>
+				
+							</div>
+							<div class="card-footer" style="display:flex; justify-content: space-around;">
+								<?php
+									$tags = fetchTags($publication['id']);
+								
+									foreach($tags as $tag){
+									echo '<span class="tag">' . htmlspecialchars($tag['tag_name']) . '</span>'; 
+								}
+
+								?>
+              </div>
+						</article>		
 					<?php endforeach; ?>
-
-
-						
-						
-						
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/github.svg" /></span>
-								<h3>GitHub</h3>
-							</div>
-							<label class="toggle">
-								<input type="checkbox" checked>
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Link pull requests and automate workflows.</p>
-						</div>
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					</article>
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/figma.svg" /></span>
-								<h3>Figma</h3>
-							</div>
-							<label class="toggle">
-								<input type="checkbox" checked>
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Embed file previews in projects.</p>
-						</div>
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					</article>
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/zapier.svg" /></span>
-								<h3>Zapier</h3>
-							</div>
-							<label class="toggle">
-								<input type="checkbox">
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Build custom automations and integrations with apps.</p>
-						</div>
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					</article>
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/notion.svg" /></span>
-								<h3>Notion</h3>
-							</div>
-							<label class="toggle">
-								<input type="checkbox" checked>
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Embed notion pages and notes in projects.</p>
-						</div>
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					</article>
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/slack.svg" /></span>
-								<h3>Slack</h3>
-							</div>
-							<label class="toggle">
-								<input type="checkbox" checked>
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Send notifications to channels and create projects.</p>
-						</div>
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					</article>
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/zendesk.svg" /></span>
-								<h3>Zendesk</h3>
-							</div>
-							<label class="toggle">
-								<input type="checkbox" checked>
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Link and automate Zendesk tickets.</p>
-						</div>
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					</article>
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/jira.svg" /></span>
-								<h3>Atlassian JIRA</h3>
-							</div>
-							<label class="toggle">
-								<input type="checkbox">
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Plan, track, and release great software.</p>
-						</div>
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					</article>
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/dropbox.svg" /></span>
-								<h3>Dropbox</h3>
-							</div>
-							<label class="toggle">
-								<input type="checkbox" checked>
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Everything you need for work, all in one place.</p>
-						</div>
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					</article>
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/google-chrome.svg" /></span>
-								<h3>Google Chrome</h3>
-							</div>
-							<label class="toggle">
-								<input type="checkbox" checked>
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Link your Google account to share bookmarks across your entire team.</p>
-						</div>
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					</article>
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/discord.svg" /></span>
-								<h3>Discord</h3>
-							</div>
-							<label class="toggle">
-								<input type="checkbox" checked>
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Keep in touch with your customers without leaving the app.</p>
-						</div>
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					</article>
-					<article class="card">
-						<div class="card-header">
-							<div>
-								<span><img src="https://assets.codepen.io/285131/google-drive.svg" /></span>
-								<h3>Google Drive</h3>
-							</div>
-							<label class="toggle">
-								<input type="checkbox">
-								<span></span>
-							</label>
-						</div>
-						<div class="card-body">
-							<p>Link your Google account to share files across your entire team.</p>
-						</div>
-						<div class="card-footer">
-							<a href="#">View integration</a>
-						</div>
-					</article>
+					
 				</div>
 			</div>
 		</div>
@@ -345,7 +161,6 @@
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
       <script src="app.js"></script>
-			const tags = document.querySelectorAll('.tag');
 
 			<script>
 			// Function to handle tag click
